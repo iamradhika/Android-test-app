@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">InstaVans_Assignment</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="enter_address_here">Enter address here</string>
+</resources>
