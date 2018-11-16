@@ -51,13 +51,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         listPoints = new ArrayList<>();
         location1 = findViewById(R.id.location);
-       // String newAddress = location1.getText().toString();
 
     }
 
@@ -96,29 +94,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     lat = address.getLatitude();
                     lng = address.getLongitude();
                 }
-                //Reset marker when already 2
+
                 if (listPoints.size() == 2) {
                     listPoints.clear();
                     mMap.clear();
                 }
                 latLng = new LatLng(lat,lng);
-                //Save first point select
+
                 listPoints.add(latLng);
-                //Create marker
+
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
 
                 if (listPoints.size() == 1) {
-                    //Add first marker to the map
+
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                 } else {
-                    //Add second marker to the map
+
                     markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                 }
                 mMap.addMarker(markerOptions);
 
                 if (listPoints.size() == 2) {
-                    //Create the URL to get request from first marker to second marker
+
                     String url = getRequestUrl(listPoints.get(0), listPoints.get(1));
                     TaskRequestDirections taskRequestDirections = new TaskRequestDirections();
                     taskRequestDirections.execute(url);
@@ -132,19 +130,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private String getRequestUrl(LatLng origin, LatLng dest) {
-        //Value of origin
+
         String str_org = "origin=" + origin.latitude +","+origin.longitude;
-        //Value of destination
+
         String str_dest = "destination=" + dest.latitude+","+dest.longitude;
-        //Set value enable the sensor
+
         String sensor = "sensor=false";
-        //Mode for find direction
+
         String mode = "mode=driving";
-        //Build the full param
+
         String param = str_org +"&" + str_dest + "&" +sensor+"&" +mode;
-        //Output format
+
         String output = "json";
-        //Create url to request
+
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + param;
         return url;
     }
@@ -158,7 +156,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.connect();
 
-            //Get the response result
+
             inputStream = httpURLConnection.getInputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -212,7 +210,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            //Parse json here
+
             TaskParser taskParser = new TaskParser();
             taskParser.execute(s);
         }
@@ -236,7 +234,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         @Override
         protected void onPostExecute(List<List<HashMap<String, String>>> lists) {
-            //Get list route and display it into the map
+           
 
             ArrayList points = null;
 
